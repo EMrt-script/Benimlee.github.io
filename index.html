@@ -74,22 +74,7 @@
             position: absolute;
             display: inline-block;
             pointer-events: none;
-            animation: emojiMove 10s infinite;
             font-size: 40px;
-        }
-        @keyframes emojiMove {
-            0% {
-                transform: translate(0, 0);
-            }
-            25% {
-                transform: translate(-50px, -80px);
-            }
-            50% {
-                transform: translate(75px, 25px);
-            }
-            100% {
-                transform: translate(50px, 100px);
-            }
         }
     </style>
 </head>
@@ -115,7 +100,18 @@
             newEmoji.style.left = `${x}px`;
             newEmoji.style.top = `${y}px`;
             document.body.appendChild(newEmoji);
-            setTimeout(() => newEmoji.remove(), 10000);
+            
+            // Rastgele animasyon hızı ve yönü ekle
+            const speed = Math.random() * 5 + 2; // Rastgele hız
+            const angle = Math.random() * 360; // Rastgele yön
+            anime({
+                targets: newEmoji,
+                translateX: `${Math.cos(angle) * 100}px`, // X ekseninde hareket
+                translateY: `${Math.sin(angle) * 100}px`, // Y ekseninde hareket
+                duration: `${speed * 1000}`, // Hareket süresi
+                easing: "linear", // Düzgün hareket
+                complete: () => newEmoji.remove() // Animasyon tamamlandığında emojiyi kaldır
+            });
         };
 
         let runawayTimer;
@@ -157,7 +153,7 @@
         });
 
         yesButton.addEventListener("click", () => {
-            for (let i = 0; i < 180; i++) {
+            for (let i = 0; i < 80; i++) {
                 createEmoji();
             }
             runawayButton.style.display = "none";
